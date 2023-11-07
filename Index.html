@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Háttérkép Váltó CSS-sel</title>
+    <style>
+
+        .container {
+            display: flex;
+        }
+
+        .dice {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+        }
+
+        #result {
+            font-size: 18px;
+        }
+
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+            background-image: url('kep1.jpg'); 
+            transition: background-image 0.5s;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            background-color: #0074D9;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+       
+        body.change-background {
+            background-image: url('kep2.jfif'); 
+        }
+
+       
+        body:not(.change-background) + button::before {
+            content: 'Háttérkép Váltás';
+        }
+
+        body.change-background + button::before {
+            content: 'Eredeti Háttérkép';
+        }
+    </style>
+</head>
+<body>
+    <button id="backgroundButton">Háttérkép Váltás</button>
+    <script>
+        const backgroundButton = document.getElementById('backgroundButton');
+        const body = document.body;
+
+        backgroundButton.addEventListener('click', () => {
+            body.classList.toggle('change-background');
+        });
+
+
+
+        var diceImages = ["dobo1.png", "dobo2.png", "dobo3.png", "dobo4.png", "dobo5.png", "dobo6.png"];
+        
+        function dobas() {
+            var dice1 = document.getElementById("dice1");
+            var dice2 = document.getElementById("dice2");
+            var result = document.getElementById("result");
+
+            var randomIndex1 = Math.floor(Math.random() * 6);
+            var randomIndex2 = Math.floor(Math.random() * 6);
+
+            while (randomIndex2 === randomIndex1) {
+                randomIndex2 = Math.floor(Math.random() * 6);
+            }
+
+            var eredmeny1 = randomIndex1 + 1;
+            var eredmeny2 = randomIndex2 + 1;
+
+            dice1.src = diceImages[randomIndex1];
+            dice2.src = diceImages[randomIndex2];
+
+            var osszeg = eredmeny1 + eredmeny2;
+            result.innerHTML = "Eredmény: " + osszeg;
+        }
+    </script>
+
+<div class="container">
+    <img class="dice" id="dice1" alt="Dobókocka 1">
+    <img class="dice" id="dice2" alt="Dobókocka 2">
+</div>
+<button onclick="dobas()">Dobás</button>
+<div id="result">Eredmény: -</div>
+
+
+
+
+</body>
+</html>
